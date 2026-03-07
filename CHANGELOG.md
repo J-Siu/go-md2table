@@ -3,3 +3,5 @@
 - v1.0.1
   - Add Github actions
   - Update example
+- v1.0.2
+  - Add list support

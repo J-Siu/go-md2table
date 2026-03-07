@@ -1,12 +1,16 @@
 # go-md2table
 
-Transform markdown file into markdown table.
+Transform markdown file with single line/list sections into markdown table.
 
 ## Example
 
 ```sh
 go run main.go example/test.md
 ```
+
+---
+
+From
 
 `example/test.md`:
 
@@ -17,15 +21,32 @@ go run main.go example/test.md
 [line 2](line 2)
 [line 3](line 3)
 ### c
-[line 4](line 4)
-[line 5](line 5)
+- [line 4](line 4)
+- [line 5](line 5)
 [line 6](line 6)
 #### d
 [line 7](line 7)
 [line 8](line 8)
-[line 9](line 9)
+- [line 9](line 9)
 [line 10](line 10)
 ```
+
+# a
+[line 1](line 1)
+## b
+[line 2](line 2)
+[line 3](line 3)
+### c
+- [line 4](line 4)
+- [line 5](line 5)
+[line 6](line 6)
+#### d
+[line 7](line 7)
+[line 8](line 8)
+- [line 9](line 9)
+[line 10](line 10)
+
+---
 
 To:
 
@@ -37,3 +58,10 @@ To:
 |||c|| [line 4](line 4) [line 5](line 5) [line 6](line 6)|
 ||||d| [line 7](line 7) [line 8](line 8) [line 9](line 9) [line 10](line 10)|
 ```
+
+||||||
+|--|--|--|--|--|
+|a|||| [line 1](line 1)|
+||b||| [line 2](line 2) [line 3](line 3)|
+|||c|| [line 4](line 4) [line 5](line 5) [line 6](line 6)|
+||||d| [line 7](line 7) [line 8](line 8) [line 9](line 9) [line 10](line 10)|

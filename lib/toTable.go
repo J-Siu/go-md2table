@@ -48,7 +48,7 @@ func ToTable(lines *[]string) *array.Array[string] {
 			table.Add(strings.TrimSpace(strings.TrimLeft(line, "#")) + strings.Repeat("|", headerLevelMax-headerLever+1))
 			hasLink = false
 		} else {
-			table.Add(" " + line)
+			table.Add(" " + strings.TrimSpace(strings.TrimLeft(line, "- ")))
 			hasLink = true
 		}
 	}
