@@ -1,0 +1,6 @@
+.DS_Store
+.gitmodules
+build
+go-work*
+
+go-md2table
