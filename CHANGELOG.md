@@ -5,3 +5,5 @@
   - Update example
 - v1.0.2
   - Add list support
+- v1.0.3
+  - update go-helper/v2
