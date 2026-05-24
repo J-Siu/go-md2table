@@ -7,3 +7,6 @@
   - Add list support
 - v1.0.3
   - update go-helper/v2
+- v1.0.4
+  - cleanup
+  - update go-helper/v2

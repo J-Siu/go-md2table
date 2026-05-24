@@ -9,57 +9,56 @@ import (
 
 func ToTable(lines *[]string) *array.Array[string] {
 	var (
-		hasLink        bool
-		headerLever    int
+		hasEntry       bool
+		headerLevel    int
 		headerLevelMax int
 		table          array.Array[string]
 	)
 	// Get max level
 	for _, line := range *lines {
-		level := tableLevel(&line)
+		level := getHeaderLevel(&line)
 		if level > headerLevelMax {
 			headerLevelMax = level
 		}
 	}
-	// Add title
+	// header row
 	if headerLevelMax > 0 {
 		table.Add(strings.Repeat("|", headerLevelMax) + "||" + global.LineBreak)
 		table.Add(strings.Repeat("|--", headerLevelMax) + "|--|")
 	}
-	// Rows
+	// rows
 	for n, l := range *lines {
 		if len(l) == 0 {
 			continue
 		}
 		line := strings.TrimSpace(l)
-		headerLever = tableLevel(&line)
-		if headerLever > 0 {
-			// line end
-			if n > 0 {
-				if hasLink {
+		headerLevel = getHeaderLevel(&line)
+		if headerLevel > 0 {
+			if n > 0 { // not first line
+				if hasEntry {
 					table.Add("|")
 				} else {
-					table.Add(strings.Repeat("|", headerLevelMax-headerLever+1))
+					table.Add(strings.Repeat("|", headerLevelMax-headerLevel+1))
 				}
 			}
 			// line start
-			table.Add(global.LineBreak + strings.Repeat("|", headerLever))
-			// header
-			table.Add(strings.TrimSpace(strings.TrimLeft(line, "#")) + strings.Repeat("|", headerLevelMax-headerLever+1))
-			hasLink = false
+			table.Add(global.LineBreak + strings.Repeat("|", headerLevel))
+			// header to column
+			table.Add(strings.TrimSpace(strings.TrimLeft(line, "#")) + strings.Repeat("|", headerLevelMax-headerLevel+1))
+			hasEntry = false
 		} else {
 			table.Add(" " + strings.TrimSpace(strings.TrimLeft(line, "- ")))
-			hasLink = true
+			hasEntry = true
 		}
 	}
-	// Ending table fence of last line
-	if hasLink {
+	// table ending fence
+	if hasEntry {
 		table.Add("|")
 	}
 	return &table
 }
 
-func tableLevel(line *string) (n int) {
+func getHeaderLevel(line *string) (n int) {
 	for _, c := range *line {
 		if c == '#' {
 			n++

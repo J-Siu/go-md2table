@@ -1,6 +1,6 @@
 # go-md2table
 
-Transform markdown file with single line/list sections into markdown table.
+Transform markdown list into table.
 
 ## Example
 

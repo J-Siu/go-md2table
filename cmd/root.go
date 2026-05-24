@@ -35,8 +35,8 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:     "go-md2table",
-	Short:   "Turn md file to md table. Only support header3 and header4.",
+	Use:     "go-md2table <file>",
+	Short:   "Transform md list to table.",
 	Version: global.Version,
 	Run: func(cmd *cobra.Command, args []string) {
 		for _, f := range args {
@@ -58,8 +58,4 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
-}
-
-func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
