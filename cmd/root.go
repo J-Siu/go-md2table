@@ -27,8 +27,8 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
-	"github.com/J-Siu/go-helper/v2/file"
 	"github.com/J-Siu/go-md2table/global"
 	"github.com/J-Siu/go-md2table/lib"
 	"github.com/spf13/cobra"
@@ -38,10 +38,18 @@ var rootCmd = &cobra.Command{
 	Use:     "go-md2table <file>",
 	Short:   "Transform md list to table.",
 	Version: global.Version,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) (err error) {
+		var (
+			bytes []byte
+			lines []string
+		)
 		for _, f := range args {
-			if lines, err := file.ReadStrArray(f); err == nil {
-				table := lib.ToTable(lines)
+			bytes, err = os.ReadFile(f)
+			if err == nil {
+				lines = strings.Split(string(bytes), "\n")
+			}
+			if err == nil {
+				table := lib.ToTable(&lines)
 				if len(*table) > 0 {
 					for _, t := range *table {
 						fmt.Print(t)
@@ -49,7 +57,11 @@ var rootCmd = &cobra.Command{
 					fmt.Println()
 				}
 			}
+			if err != nil {
+				return
+			}
 		}
+		return
 	},
 }
 

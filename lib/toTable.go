@@ -3,16 +3,15 @@ package lib
 import (
 	"strings"
 
-	"github.com/J-Siu/go-helper/v2/array"
 	"github.com/J-Siu/go-md2table/global"
 )
 
-func ToTable(lines *[]string) *array.Array[string] {
+func ToTable(lines *[]string) *[]string {
 	var (
 		hasEntry       bool
 		headerLevel    int
 		headerLevelMax int
-		table          array.Array[string]
+		table          []string
 	)
 	// Get max level
 	for _, line := range *lines {
@@ -23,8 +22,8 @@ func ToTable(lines *[]string) *array.Array[string] {
 	}
 	// header row
 	if headerLevelMax > 0 {
-		table.Add(strings.Repeat("|", headerLevelMax) + "||" + global.LineBreak)
-		table.Add(strings.Repeat("|--", headerLevelMax) + "|--|")
+		table = append(table, strings.Repeat("|", headerLevelMax)+"||"+global.LineBreak)
+		table = append(table, strings.Repeat("|--", headerLevelMax)+"|--|")
 	}
 	// rows
 	for n, l := range *lines {
@@ -36,24 +35,24 @@ func ToTable(lines *[]string) *array.Array[string] {
 		if headerLevel > 0 {
 			if n > 0 { // not first line
 				if hasEntry {
-					table.Add("|")
+					table = append(table, "|")
 				} else {
-					table.Add(strings.Repeat("|", headerLevelMax-headerLevel+1))
+					table = append(table, strings.Repeat("|", headerLevelMax-headerLevel+1))
 				}
 			}
 			// line start
-			table.Add(global.LineBreak + strings.Repeat("|", headerLevel))
+			table = append(table, global.LineBreak+strings.Repeat("|", headerLevel))
 			// header to column
-			table.Add(strings.TrimSpace(strings.TrimLeft(line, "#")) + strings.Repeat("|", headerLevelMax-headerLevel+1))
+			table = append(table, strings.TrimSpace(strings.TrimLeft(line, "#"))+strings.Repeat("|", headerLevelMax-headerLevel+1))
 			hasEntry = false
 		} else {
-			table.Add(" " + strings.TrimSpace(strings.TrimLeft(line, "- ")))
+			table = append(table, " "+strings.TrimSpace(strings.TrimLeft(line, "- ")))
 			hasEntry = true
 		}
 	}
 	// table ending fence
 	if hasEntry {
-		table.Add("|")
+		table = append(table, "|")
 	}
 	return &table
 }

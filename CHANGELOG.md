@@ -10,3 +10,5 @@
 - v1.0.4
   - cleanup
   - update go-helper/v2
+- v1.0.5
+  - dep: rm go-helper
